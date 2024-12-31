@@ -10,12 +10,12 @@ sns.set(style='dark')
 
 # Dataset
 datetime_cols = ["order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "order_purchase_timestamp", "shipping_limit_date"]
-all_df = pd.read_csv("E:\CODE\Dicoding_Data_Scientist\project-data-analyst-dicoding\dashboard\merge_data.csv")
+all_df = pd.read_csv("/workspaces/project-data-analyst-dicoding/dashboard/merge_data.csv")
 all_df.sort_values(by="order_approved_at", inplace=True)
 all_df.reset_index(inplace=True)
 
 # Geolocation Dataset
-geolocation = pd.read_csv('E:\CODE\Dicoding_Data_Scientist\project-data-analyst-dicoding\dashboard\geolocation_dataset.csv')
+geolocation = pd.read_csv('/workspaces/project-data-analyst-dicoding/dashboard/geolocation_dataset.csv')
 data = geolocation.drop_duplicates(subset='customer_unique_id')
 
 for col in datetime_cols:
@@ -30,7 +30,7 @@ with st.sidebar:
     st.title("Indradi Rahmatullah")
 
     # Logo Image
-    st.image("E:\CODE\Dicoding_Data_Scientist\project-data-analyst-dicoding\dashboard\data-science.png")
+    st.image("/workspaces/project-data-analyst-dicoding/dashboard/data-science.png")
 
     # Date Range
     start_date, end_date = st.date_input(
