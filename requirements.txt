@@ -1,7 +1,7 @@
-numpy
-pandas
-matplotlib
-urllib
-scipy
-streamlit
-seaborn
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.8.0
+urllib3==2.2.3
+scipy==1.13.1
+streamlit==1.41.1
+seaborn==0.13.2
