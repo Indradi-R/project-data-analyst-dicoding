@@ -36,4 +36,4 @@ This project focuses on analyzing data from an E-Commerce Public Dataset. The ul
    cd project-data-analyst-dicoding/dashboard/
    streamlit run dashboard.py
    ```
-   [Project Data Analytics](https://shiny-spoon-5966jvp6vqqhvg57-8501.app.github.dev/?vscodeBrowserReqId=1735631166914)
+   [Project Data Analytics](https://project-data-analyst-dicoding-abtappvb68ouixbl3rdykgv.streamlit.app/)
