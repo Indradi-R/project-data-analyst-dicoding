@@ -55,7 +55,7 @@ state, most_common_state = function.create_bystate_df()
 order_status, common_status = function.create_order_status()
 
 # Title
-st.header("E-Commerce Dashboard :convenience_store:")
+st.header("E-Commerce Dashboard")
 
 # Daily Orders
 st.subheader("Daily Orders")
@@ -213,5 +213,69 @@ with tab3:
 
     with st.expander("Description"):
         st.write('According to the graph, there are more customers in the southeast and south. Another piece of information is that there are more customers in the capital cities (São Paulo, Rio de Janeiro, Porto Alegre, etc.).')
+
+# New Visualizations
+
+# Distribution of Orders Delivered On Time vs Late
+st.subheader("Distribution of Orders Delivered On Time vs Late")
+all_df['delivered_on_time'] = (all_df['order_delivered_customer_date'] <= all_df['order_estimated_delivery_date'])
+
+delivery_status_counts = all_df['delivered_on_time'].value_counts()
+
+fig, ax = plt.subplots(figsize=(6, 4))
+delivery_status_counts.plot(kind='bar', color=['green', 'red'], ax=ax)
+ax.set_title('Distribution of Orders Delivered On Time vs Late')
+ax.set_xlabel('Delivery Status')
+ax.set_ylabel('Number of Orders')
+ax.set_xticklabels(['On Time', 'Late'], rotation=0)
+st.pyplot(fig)
+
+
+# Distribution of Payment Methods
+st.subheader("Distribution of Payment Methods")
+payment_type_counts = all_df['payment_type'].value_counts()
+
+# Exclude the 'not_defined' category
+payment_type_counts = payment_type_counts[payment_type_counts.index != 'not_defined']
+
+fig, ax = plt.subplots(figsize=(6, 6))
+wedges, texts, autotexts = ax.pie(payment_type_counts, autopct='%1.1f%%', colors=sns.color_palette("Set3", len(payment_type_counts)), startangle=180)
+ax.set_title('Distribution of Payment Methods')
+ax.set_ylabel('')  # Hide the y-label
+ax.legend(wedges, payment_type_counts.index, title="Payment Methods", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+plt.setp(autotexts, size=10, weight="bold")
+st.pyplot(fig)
+
+st.write(payment_type_counts)
+
+# Top 10 Cities with the Most Sellers
+st.subheader("Top 10 Cities with the Most Sellers")
+top_seller_cities = all_df.groupby('seller_city')['seller_id'].nunique().sort_values(ascending=False).head(10)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+top_seller_cities.plot(kind='bar', color='skyblue', ax=ax)
+ax.set_title('Top 10 Cities with the Most Sellers')
+ax.set_xlabel('City')
+ax.set_ylabel('Number of Sellers')
+ax.tick_params(axis='x', rotation=45)
+st.pyplot(fig)
+
+# Relationship between Payment Value and Review Score
+st.subheader("Relationship between Payment Value and Review Score")
+merged_payments_reviews = pd.merge(
+    left=all_df[['order_id', 'payment_value']],
+    right=all_df[['order_id', 'review_score']],
+    how='left',
+    on='order_id'
+)
+
+correlation = merged_payments_reviews[['payment_value', 'review_score']].corr()
+
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.scatterplot(x='payment_value', y='review_score', data=merged_payments_reviews, color='purple', alpha=0.5, ax=ax)
+ax.set_title('Relationship between Payment Value and Review Score')
+ax.set_xlabel('Payment Value')
+ax.set_ylabel('Review Score')
+st.pyplot(fig)
 
 st.caption('Copyright (C) Indradi Rahmatullah 2024')
